@@ -14,5 +14,5 @@ def train(dataloader, model, train_loss, evaluator=None):
         evaluation_steps=evaluation_steps,
         output_path=model_save_path)
 
-def test(data_loader, model):
+def test(data_loader, model, evaluator):
     pass

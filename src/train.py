@@ -36,7 +36,8 @@ def run():
     valid_sentence1, valid_sentence2, valid_labels = dataset_reader.read(df_valid)
 
     train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=train_batch)
-    evaluator = evaluation.EmbeddingSimilarityEvaluator(valid_sentence1, valid_sentence2, valid_labels)
+    # evaluator = evaluation.EmbeddingSimilarityEvaluator(valid_sentence1, valid_sentence2, valid_labels)
+    evaluator = evaluation.BinaryClassificationEvaluator(valid_sentence1, valid_sentence2, valid_labels, batch_size=vaild_batch, show_progress_bar=False)
 
     word_embedding_model = models.Transformer(model_path, max_seq_length=max_length)
     pooling_model = models.Pooling(word_embedding_model.get_word_embedding_dimension())
