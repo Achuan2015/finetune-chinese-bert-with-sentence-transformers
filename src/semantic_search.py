@@ -32,7 +32,6 @@ for query in queries:
     #We use torch.topk to find the highest 5 scores
     top_results = torch.topk(cos_scores, k=top_k)
 
-    print("======================")
     print("Query:", query)
     print("Top 2 most similar sentences in corpus:")
 
