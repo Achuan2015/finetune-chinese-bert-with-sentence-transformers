@@ -19,6 +19,7 @@ def run():
     vaild_batch = config.VALID_BATCH_SIZE
     model_path = config.BERT_PATH
     max_length = config.MAX_LEN 
+    output_feature_size = config.OUTPUT_FEATURE_SIZE
     dfs = pd.read_csv(train_file, sep="\t", names=['idx', 'sent1', 'sent2', 'label']) 
     dfs['label'] = pd.to_numeric(dfs["label"], downcast='float')
     df_train, df_valid = model_selection.train_test_split(dfs,
@@ -40,8 +41,9 @@ def run():
     evaluator = evaluation.BinaryClassificationEvaluator(valid_sentence1, valid_sentence2, valid_labels, batch_size=vaild_batch, show_progress_bar=False)
 
     word_embedding_model = models.Transformer(model_path, max_seq_length=max_length)
+    print(word_embedding_model.get_word_embedding_dimension())
     pooling_model = models.Pooling(word_embedding_model.get_word_embedding_dimension())
-    dense_model = models.Dense(in_features=pooling_model.get_sentence_embedding_dimension(), out_features=max_length, activation_function=nn.Tanh())
+    dense_model = models.Dense(in_features=pooling_model.get_sentence_embedding_dimension(), out_features=output_feature_size, activation_function=nn.Tanh())
 
     model = SentenceTransformer(modules=[word_embedding_model, pooling_model, dense_model])
 

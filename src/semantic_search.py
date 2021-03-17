@@ -21,11 +21,13 @@ corpus_embeddings = embedder.encode(corpus, convert_to_tensor=True)
 
 # Query sentences:
 queries = ['公司福利', '公司年假', '公司的投资方', '城南旧事的作者是谁', '网上哪能看建国大业']
+# queries = queries * 100
 
 # Find the closest 5 sentences of the corpus for each query sentence based on cosine similarity
 top_k = min(2, len(corpus))
 for query in queries:
     query_embedding = embedder.encode(query, convert_to_tensor=True)
+    print(f'query_embedding shape: {query_embedding.shape}')
     cos_scores = util.pytorch_cos_sim(query_embedding, corpus_embeddings)[0]
     cos_scores = cos_scores.cpu()
 

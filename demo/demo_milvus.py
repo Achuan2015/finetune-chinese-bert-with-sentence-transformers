@@ -61,6 +61,9 @@ def main():
     if status_delete.OK():
         print(f'delete successful')
 
+    status, result = milvus.count_entities(collection_name)
+    print(f"demo_collection row count: {result}")
+
     # Flush collection insered data to disk
     milvus.flush([collection_name])
     # Get demo_collection row count
@@ -94,7 +97,7 @@ def main():
     param = {
             'collection_name': collection_name,
             'query_records': query_vectors,
-            'top_k': 1,
+            'top_k': 3,
             'params': search_param
     }
     
@@ -107,6 +110,7 @@ def main():
         print(results)
     else:
         print(f'search failed: {status}')
+    print(results[0][0].distance)
 
     # 清除已经存在的collection
     milvus.drop_collection(collection_name=collection_name)
